@@ -1,0 +1,27 @@
+{
+	"miniprogramRoot": "dist/",
+	"projectname": "%E6%B8%A9%E6%95%85%E5%A4%8D%E4%B9%A0",
+	"description": "复习",
+	"appid": "wx296ef650ee2db9a7",
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true,
+		"coverView": true,
+		"autoAudits": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
+	},
+	"compileType": "miniprogram",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {}
+}
