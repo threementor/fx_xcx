@@ -26,25 +26,27 @@ export default class Login extends Component{
       Taro.login({
         success: res => {
           if (res.code){
-            Taro.atMessage({
-              'message': '获取code成功',
-              'type': 'success',
-            })
             regOrLogin(res.code, function(res){
                 console.log(res)
-                Taro.setStorageSync("cookies", res.cookies[0])
-                Taro.redirectTo({
-                  url: '/pages/index/index'
-                })
+                if(res.code == 200){
+                  
+                  Taro.redirectTo({
+                    url: '/pages/index/index'
+                  })
+                }else{
+                  Taro.atMessage({
+                    'message': '登录失败: ' + res.msg,
+                    'type': 'fail',
+                  })
+                  Taro.hideLoading()
+                }
+                
 
               }, function(res){
                 Taro.hideLoading()
                 Taro.atMessage({
                   'message': '登录失败: ' + JSON.stringify(res),
                   'type': 'fail',
-                })
-                Taro.redirectTo({
-                  url: '/pages/index/index'
                 })
               }
             )
