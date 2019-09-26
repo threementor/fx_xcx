@@ -24,7 +24,7 @@ export function httpAction(url, data, succ, fail, method){
         } 
       }
       if(res.statusCode == 401){
-        Taro.redirectTo("pages/login/Login")
+        Taro.redirectTo({ "url": "pages/login/Login"})
       }else if (succ){
         succ(res.data)
       }

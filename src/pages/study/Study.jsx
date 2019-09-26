@@ -12,6 +12,8 @@ import './study.scss'
 import {StudyFinish} from './StudyFinish'
 import {getReadyCards} from '../../api/deck'
 import {onCardHard, onCardNormal, onCardEasy} from '../../api/card'
+import {Card} from './Card'
+
 
 export default class Study extends Component {
 
@@ -189,20 +191,17 @@ export default class Study extends Component {
           <View className='at-col'><AtButton size="small" onClick={this.goBack}>主页</AtButton></View>
           <View className='at-col'><AtButton size="small" onClick={this.onAdd}>添加</AtButton></View>
           <View className='at-col'><AtButton size="small" onClick={this.onEdit}>编辑</AtButton></View>
-          <View className='at-col'><AtButton size="small">搜索</AtButton></View>
         </View>
         {
-          finish ? <View className='at-article__p'> 恭喜您当前已经完成了此牌组！ </View> : loading ? <View><AtActivityIndicator mode='center' content='加载中...'></AtActivityIndicator></View> : <View>
-            <View class='card'>
-              <View className='at-article__p'> {c.Note.Title} </View>
+          finish ? <View className='at-article__p'> 恭喜您当前已经完成了此牌组！ </View> : loading ? <View><AtActivityIndicator mode='center' content='加载中...'></AtActivityIndicator></View> :  c ?  (
+            <View> 
+              <Card content={c.Note.Title} ></Card>
               <AtDivider>
                 <AtIcon value='check-circle'></AtIcon>
               </AtDivider>
-              {showAnswer ? <View className='at-article__p'>{ c.Note.Content }</View> : null}
-            </View>
-          }
-            
-          </View> 
+              {showAnswer ? <Card content={c.Note.Content} ></Card> : null}
+            </View>)
+             : <View></View>
         }
         <View className='bottom'>
           {
