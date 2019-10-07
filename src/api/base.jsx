@@ -1,5 +1,17 @@
 import Taro from '@tarojs/taro'
 
+export function setQueryConfig(url, param){ 
+  console.log(url)
+  console.log(param)
+  var x = url + '?'; 
+  for(var o in param){ 
+    if(param[o] != -1){ 
+      x += o + "=" + param[o] + "&"; 
+    } 
+  }
+ var x = x.substring(0, x.length-1); 
+ return x; 
+}
 
 export function httpAction(url, data, succ, fail, method){
   const option = {
@@ -19,12 +31,29 @@ export function httpAction(url, data, succ, fail, method){
           let sps = res.header['Set-Cookie'].split(';')
           console.log(sps)
           if(sps.length>0){
+          f
             Taro.setStorageSync("cookies", sps[0])
           }
         } 
       }
       if(res.statusCode == 401){
-        Taro.redirectTo({ "url": "pages/login/Login"})
+        if(Taro.getCurrentPages().length > 0){
+          let pages = Taro.getCurrentPages()
+          console.log(pages)
+          let url = "/pages/login/Login?next="
+          if(pages.length > 0){
+            let nextPage = pages[pages.length-1]
+            console.log(nextPage)
+            let nextUrl = '/' + setQueryConfig(nextPage.route, nextPage.options)
+            nextUrl = escape(nextUrl)
+            url = url + nextUrl
+          }
+          console.log(url)
+          Taro.redirectTo({ "url": url})
+        }else{
+          Taro.redirectTo({ "url": "/pages/login/Login" })
+        }
+        
       }else if (succ){
         succ(res.data)
       }

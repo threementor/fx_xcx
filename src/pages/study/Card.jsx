@@ -4,21 +4,10 @@ import './study.scss'
 
 
 export default class Card extends Component {
-
-  state = {
-    content: ''
-  }
-
-  componentWillMount () {
-    const content = this.props.content
-    console.log(content)
-    this.setState({
-      content
-    })
-  }
+  
 
   render(){
-    let lines = this.state.content.split('\n')
+    let lines = this.props.content.split('\n')
     return (
       <View className='at-article'>
         { 
@@ -29,4 +18,8 @@ export default class Card extends Component {
       </View>
     )
   }
+}
+
+Card.defaultProps = {
+  content: ''
 }

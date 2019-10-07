@@ -6,9 +6,18 @@ import {
   AtListItem, 
   AtActivityIndicator,
   AtTabBar, 
-  AtMessage
+  AtMessage,
+  AtFab,
+  AtButton,
+  AtFloatLayout,
 } from "taro-ui"
 import {getDeckList} from '../../api/deck'
+
+import {
+  DEBUG,
+  HOST_PROD, 
+  HOST_DEV
+} from '../../constants/url'
 
 
 export default class Index extends Component {
@@ -17,7 +26,8 @@ export default class Index extends Component {
     navigationBarTitleText: '首页'
   }
   state = {
-    loading: false
+    loading: false,
+    openDebugDialog: false,
   }
   constructor(props){
     super(props)
@@ -26,7 +36,9 @@ export default class Index extends Component {
     }
   }
 
-  componentWillMount () { }
+  componentWillMount () {
+
+  }
 
   componentDidMount () { }
 
@@ -62,17 +74,51 @@ export default class Index extends Component {
   go2study = (did) => {
     console.log('go2study ' + did)
     Taro.navigateTo({
-      url: '/pages/study/Study?did=' + did,
+      url: '/pages/deck/Deck?did=' + did,
     })
   }
+
+  openDebug = ()=> {
+    this.setState({openDebugDialog: true})
+  }
+  
+  closeDebug = ()=> {
+    this.setState({openDebugDialog: false})
+  }
+
+  cleanStorage = () => {
+    Taro.clearStorage()
+  }
+  
+  change2Prop = () => {
+    Taro.setStorageSync("host", HOST_PROD)
+  }
+
+  change2dev = ()=> {
+    Taro.setStorageSync("host", HOST_DEV)
+  }
+
 
   render () {
     let decks = this.state.decks
     console.log(decks)
-      
     return (
       <View className='index'>
         <AtMessage />
+        {
+          DEBUG ? <AtFab onClick={this.openDebug}>
+          <Text className='at-fab__icon at-icon at-icon-menu'></Text>
+        </AtFab> : null
+        }
+        <AtFloatLayout 
+          isOpened={this.state.openDebugDialog} 
+          title="DEBUG"
+          onClose={this.closeDebug}
+        >
+          <AtButton onClick={this.cleanStorage}>cleanStorage</AtButton>
+          <AtButton onClick={this.change2Prop}>切换到线上</AtButton>
+          <AtButton onClick={this.change2dev}>切换到线下</AtButton>
+        </AtFloatLayout>
         <AtList>
           {
             decks.map((row, i) => (
@@ -85,6 +131,8 @@ export default class Index extends Component {
             ))
           }
         </AtList>
+        <View class="botton_block"/>
+
         {this.state.loading ? <AtActivityIndicator></AtActivityIndicator> : <View />}
         <AtTabBar
           fixed

@@ -13,12 +13,18 @@ export default class Login extends Component{
   config = {
     navigationBarTitleText: '登录'
   }
-  componentWillMount(){
+
+  componentDidShow(){
     this.wxLogin()
   }
 
   wxLogin(){
     let self = this
+    console.log(self.$router.params)
+    console.log(self.$router.params.next)
+    let nextUrl = self.$router.params.next || '/pages/index/index'
+    console.log(nextUrl)
+
     this.setState({loading: true})
     Taro.showLoading({
       title: '登录中...'
@@ -29,9 +35,9 @@ export default class Login extends Component{
           regOrLogin(res.code, function(res){
               console.log(res)
               if(res.code == 200){
-                
+                console.log(`next=${nextUrl}`)
                 Taro.redirectTo({
-                  url: '/pages/index/index'
+                  url: nextUrl
                 })
               }else{
                 Taro.atMessage({
@@ -42,7 +48,6 @@ export default class Login extends Component{
                 self.setState({loading: false})
 
               }
-              
 
             }, function(res){
               Taro.hideLoading()

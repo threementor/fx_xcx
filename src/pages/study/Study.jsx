@@ -76,8 +76,10 @@ export default class Study extends Component {
 
   componentDidHide () { }
 
-  goBack(){
-    Taro.navigateBack()
+  goBack = ()=> {
+    Taro.navigateTo({
+      url: '/pages/deck/Deck?did=' + this.state.did
+    })
   }
 
   onAdd = ()=> {
@@ -191,6 +193,7 @@ export default class Study extends Component {
           <View className='at-col'><AtButton size="small" onClick={this.goBack}>主页</AtButton></View>
           <View className='at-col'><AtButton size="small" onClick={this.onAdd}>添加</AtButton></View>
           <View className='at-col'><AtButton size="small" onClick={this.onEdit}>编辑</AtButton></View>
+          <View className='at-col'> 剩余：{this.state.cards.length}</View>
         </View>
         {
           finish ? <View className='at-article__p'> 恭喜您当前已经完成了此牌组！ </View> : loading ? <View><AtActivityIndicator mode='center' content='加载中...'></AtActivityIndicator></View> :  c ?  (
@@ -206,11 +209,11 @@ export default class Study extends Component {
         <View className='bottom'>
           {
             finish ? <View/> : showAnswer ? <View className='at-row'>
-            <View className='at-col'><AtButton size="small" disabled={submiting} onClick={this.onHard}>困难</AtButton></View>
-            <View className='at-col'><AtButton size="small" disabled={submiting} onClick={this.onNormal}>一般</AtButton></View>
-            <View className='at-col'><AtButton size="small" disabled={submiting} onClick={this.onEasy}>简单</AtButton></View>
+            <View className='at-col'><AtButton disabled={submiting || loading} onClick={this.onHard}>困难</AtButton></View>
+            <View className='at-col'><AtButton disabled={submiting || loading} onClick={this.onNormal}>一般</AtButton></View>
+            <View className='at-col'><AtButton disabled={submiting || loading} onClick={this.onEasy}>简单</AtButton></View>
             </View> : <View className='at-row'>
-            <View className='at-col'><AtButton size="small" onClick={this.onShowAnswer}>{this.state.cards.length}</AtButton></View>
+            <View className='at-col'><AtButton disabled={submiting || loading} onClick={this.onShowAnswer}>点击显示答案</AtButton></View>
             </View>
           }
         </View>
